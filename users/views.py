@@ -1,3 +1,56 @@
-from django.shortcuts import render
+from django.urls import reverse
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from rest_framework import generics, status
+from rest_framework.response import Response
+from .models import CustomUser
+from .serializers import UserRegistrationSerializer
 
-# Create your views here.
+class UserRegistrationView(generics.CreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserRegistrationSerializer
+
+    def perform_create(self, serializer):
+        # Salva o usuário com is_active=False
+        user = serializer.save()
+        # Envia o email de confirmação
+        self.send_confirmation_email(user)
+
+    def send_confirmation_email(self, user):
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        current_site = get_current_site(self.request)
+        # Construa a URL de ativação; 
+        activation_link = self.request.build_absolute_uri(
+            reverse('user-activation', kwargs={'uidb64': uid, 'token': token})
+        )
+        subject = "Confirmação de Cadastro"
+        message = (
+            f"Olá {user.username},\n\n"
+            f"Para ativar sua conta, clique no link abaixo:\n{activation_link}\n\n"
+            "Se você não se registrou na nossa plataforma, por favor, ignore este email."
+        )
+        # Envia o email 
+        user.email_user(subject, message)
+
+
+
+
+class ActivateUserView(generics.GenericAPIView):
+    def get(self, request, uidb64, token, format=None):
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = CustomUser.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+            user = None
+        
+
+        if user is not None and default_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            return Response({'message': 'Conta activada com sucesso!'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Link de ativação inválido!'}, status=status.HTTP_400_BAD_REQUEST)
+
