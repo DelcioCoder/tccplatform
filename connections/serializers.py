@@ -6,10 +6,10 @@ class ConnectionRequestCreateSerializer(serializers.ModelSerializer):
         model = ConnectionRequest
         fields = ['advisor', 'message']
 
-    def validate_data(self, value):
+    def validate_advisor(self, value):
         """Garantir que o estudante não envie solicitação para si mesmo"""
         if value.user_type != 'advisor':
-            raise serializers.validationError('A solicitação só pode ser enviado para um orientador.')
+            raise serializers.ValidationError('A solicitação só pode ser enviado para um orientador.')
         return value
     
     def create(self, validated_data):
