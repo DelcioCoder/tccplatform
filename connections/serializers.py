@@ -8,8 +8,18 @@ class ConnectionRequestCreateSerializer(serializers.ModelSerializer):
 
     def validate_advisor(self, value):
         """Garantir que o estudante não envie solicitação para si mesmo"""
+        request = self.context.get('request')
         if value.user_type != 'advisor':
             raise serializers.ValidationError('A solicitação só pode ser enviado para um orientador.')
+        
+        # Verificar se já existe uma solicitação pendente para o orientador
+        if ConnectionRequest.objects.filter(
+            student=request.user,
+            advisor=value,
+            status='Pending'
+        ).exists():
+            raise serializers.ValidationError('Já existe uma solicitação pendente para este orientador.'
+        )
         return value
     
     def create(self, validated_data):
