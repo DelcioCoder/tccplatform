@@ -4,7 +4,9 @@ from .models import ConnectionRequest
 class ConnectionRequestCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConnectionRequest
-        fields = ['advisor', 'message']
+        fields = ['id', 'advisor', 'message']
+        read_only_fields = ['id']
+    
 
     def validate_advisor(self, value):
         """Garantir que o estudante não envie solicitação para si mesmo"""
@@ -18,8 +20,8 @@ class ConnectionRequestCreateSerializer(serializers.ModelSerializer):
             advisor=value,
             status='Pending'
         ).exists():
-            raise serializers.ValidationError('Já existe uma solicitação pendente para este orientador.'
-        )
+            raise serializers.ValidationError('Já existe uma solicitação pendente para este orientador.')
+        
         return value
     
     def create(self, validated_data):
