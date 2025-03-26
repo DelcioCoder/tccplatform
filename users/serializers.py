@@ -5,7 +5,7 @@ from django.core.validators import RegexValidator
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password2 = serializers.CharField(write_only=True, required=True)
     email = serializers.EmailField(
         required=True,
         validators=[
@@ -18,9 +18,19 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password', 'user_type']
+        fields = ['username', 'email', 'password', 'password2', 'user_type']
+        extra_kwargs = {
+            'password2': {'write_only': True}
+        }
+    
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
+            raise serializers.ValidationError({"password": "As senhas não coincidem."})
+        return attrs
     
     def create(self, validated_data):
+        validated_data.pop('password2') # Remove password2 antes de criar o usuário
         user = CustomUser.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
