@@ -1,3 +1,4 @@
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
@@ -12,11 +13,28 @@ class UserRegistrationView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserRegistrationSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = self.perform_create(serializer)
+
+        # Gerar tokens
+        refresh = RefreshToken.for_user(user)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response({
+            'message': 'Usuário registrado com sucesso!',
+            'user': serializer.data['username'],
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
         # Salva o usuário com is_active=False
         user = serializer.save()
         # Envia o email de confirmação
         self.send_confirmation_email(user)
+        return user
 
     def send_confirmation_email(self, user):
         token = default_token_generator.make_token(user)
