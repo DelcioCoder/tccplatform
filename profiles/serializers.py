@@ -13,9 +13,12 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class AdvisorSearchSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')
+    user_id = serializers.IntegerField(source='user.id')
     class Meta:
         model = Profile
-        fields = ['username', 'specialization', 'biography']
+        fields = ['user_id', 'username', 'specialization', 'biography']
+        read_only_fields = ['user_id']
+        
 
 
 class StudentSearchSerializer(serializers.ModelSerializer):
