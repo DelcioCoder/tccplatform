@@ -189,5 +189,7 @@ myproject/ ├── myproject/ # Configurações gerais (settings, urls, wsgi) 
    cd nome-do-projeto
    
 2. **Crie e active o ambiente virtual:**
-python3 -m venv nome_do_ambiente
-source nome_do_ambiente\bin\activate
+python -m venv venv
+source venv/bin/activate   # Linux/macOS
+venv\Scripts\activate      # Windows
+
