@@ -187,3 +187,7 @@ myproject/ ├── myproject/ # Configurações gerais (settings, urls, wsgi) 
    ```bash
    git clone https://github.com/DelcioCoder/tccplatform.git
    cd nome-do-projeto
+   
+2. **Crie e active o ambiente virtual:**
+python3 -m venv nome_do_ambiente
+source nome_do_ambiente\bin\activate
