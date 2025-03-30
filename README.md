@@ -1,1 +1,1 @@
-# tccplatform
+# Plataforma de orientação acadêmica
