@@ -185,5 +185,5 @@ myproject/ ├── myproject/ # Configurações gerais (settings, urls, wsgi) 
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/seu-usuario/nome-do-projeto.git
+   git clone https://github.com/DelcioCoder/tccplatform.git
    cd nome-do-projeto
