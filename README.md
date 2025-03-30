@@ -188,8 +188,24 @@ myproject/ ├── myproject/ # Configurações gerais (settings, urls, wsgi) 
    git clone https://github.com/DelcioCoder/tccplatform.git
    cd nome-do-projeto
    
-2. **Crie e active o ambiente virtual:**
+## Criação e Ativação do Ambiente Virtual
+
+Para isolar as dependências do projeto, crie e ative um ambiente virtual.
+
+### No Linux/macOS:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+
+```
+
+### No windows:
+```bash
 python -m venv venv
-source venv/bin/activate   # Linux/macOS
-venv\Scripts\activate      # Windows
+venv\Scripts\activate
+```
+
+### Instalar as dependencias do projecto:
+```bash
+pip install -r requirements.txt
 
