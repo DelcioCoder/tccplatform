@@ -4,10 +4,18 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from .models import CustomUser
 from .serializers import UserRegistrationSerializer
+
+class AccountStatusView(generics.RetrieveAPIView):
+    permission_classes = []
+    def get(self, request):
+        return Response({
+            "username": request.user.username,
+            "is_active": request.user.is_active,
+        })
 
 class UserRegistrationView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
