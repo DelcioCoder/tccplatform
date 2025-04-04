@@ -79,4 +79,17 @@ class ActivateUserView(generics.GenericAPIView):
             return Response({'message': 'Conta activada com sucesso!'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Link de ativação inválido!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+class UserDetailView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return Response({
+            'user_id': user.id,
+            'username': user.username,
+            'user_type': user.user_type #Student ou Advisor
+        })
 
