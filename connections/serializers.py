@@ -54,11 +54,23 @@ class ConnectionRequestResponseSerializer(serializers.ModelSerializer):
         return instance
 
 
-
 class ConnectionRequestSerializer(serializers.ModelSerializer):
+    student_id = serializers.IntegerField(source='student.id', read_only=True)
+    advisor_id = serializers.IntegerField(source='advisor.id', read_only=True)
     student_username = serializers.CharField(source='student.username', read_only=True)
     advisor_username = serializers.CharField(source='advisor.username', read_only=True)
 
     class Meta:
         model = ConnectionRequest
-        fields = ['id', 'student_username', 'advisor_username', 'message', 'response_message', 'status', 'created_at']
+        fields = [
+            'id', 
+            'student_id',
+            'student_username', 
+            'advisor_id',
+            'advisor_username', 
+            'message', 
+            'response_message', 
+            'status', 
+            'created_at'
+        ]
+        read_only_fields = ['id']

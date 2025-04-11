@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django_filters',
     'corsheaders',
+    'channels',
     # Add the new app to the list of installed apps
     'users',
     'chat',
@@ -84,6 +85,20 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core_platform.wsgi.application'
+ASGI_APPLICATION = 'core_platform.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    }
+}
+
+CORS_ALLOW_ALL_ORIGINS = True  # Apenas para desenvolvimento!
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Database

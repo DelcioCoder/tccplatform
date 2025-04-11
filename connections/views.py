@@ -48,7 +48,7 @@ class ConnectionRequestStudentListView(generics.ListAPIView):
 
     def get_queryset(self):
         """Retorna apenas as solicitações direcionadas ao estudante autenticado"""
-        return ConnectionRequest.objects.filter(student=self.request.user)
+        return ConnectionRequest.objects.filter(student=self.request.user).select_related('student', 'advisor')
 
 class ConnectionRequestResponseView(generics.UpdateAPIView):
     """View para que o orientador responda a uma solicitação de conexão"""

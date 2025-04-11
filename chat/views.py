@@ -20,6 +20,18 @@ class GetOrCreateConversationView(generics.GenericAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
+class ConversationListView(generics.ListAPIView):
+    serializer_class = ConversationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Conversation.objects.filter(
+            Q(advisor=user) | Q(student=user)
+        ).order_by('-updated_at'
+                                        )
+    
+
 
 class MessageListCreateView(generics.ListCreateAPIView):
     serializer_class = MessageSerializer
@@ -29,7 +41,7 @@ class MessageListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         conversation_id = self.kwargs.get('conversation_id')
         if conversation_id:
-            return Message.objects.filter(conversation_id=conversation_id).order_by('timestamp')
+            return Message.objects.filter(conversation_id=conversation_id).order_by('-timestamp')
         return Message.objects.none() # Se não houver conversa, retorna vazio
     
     def perform_create(self, serializer):
