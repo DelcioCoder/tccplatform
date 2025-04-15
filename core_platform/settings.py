@@ -68,6 +68,12 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'core_platform.urls'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -134,6 +140,10 @@ from decouple import config
 
 # Custom user model
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# FrontEnd endpoint
+FRONTEND_URL = "http://localhost:3000"  # Desenvovimento
+
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

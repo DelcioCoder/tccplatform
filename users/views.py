@@ -5,6 +5,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from rest_framework import generics, status, permissions
+from django.conf import settings
 from rest_framework.response import Response
 from .models import CustomUser
 from .serializers import UserRegistrationSerializer
@@ -49,9 +50,7 @@ class UserRegistrationView(generics.CreateAPIView):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         current_site = get_current_site(self.request)
         # Construa a URL de ativação; 
-        activation_link = self.request.build_absolute_uri(
-            reverse('user-activation', kwargs={'uidb64': uid, 'token': token})
-        )
+        activation_link = f"{settings.FRONTEND_URL}/activate/?uidb64={uid}&token={token}"
         subject = "Confirmação de Cadastro"
         message = (
             f"Olá {user.username},\n\n"
