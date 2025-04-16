@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-lfdm3_#y3oh5v1esqg$%%=$^)%6t^^soj$b+t%x@mpipc@kbg%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['tccplatform-1.onrender.com', 'www.tccplatform-1.onrender.com']
+
 
 
 # Application definition
@@ -72,6 +73,12 @@ CORS_ALLOW_ORIGINS = [
     "http://192.168.84.244:3000",
 ]
 CORS_ALLOW_ALL_ORIGINS = False  
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://tccplatform-1.onrender.com",
+]
+
 
 
 TEMPLATES = [
