@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     command: ["/app/entrypoint.sh"] # Usar um script de entrada
-    volumes:
-      - .:/app # Para desenvolvimento local, remova para produção
     ports:
       - "8000:8000"
     depends_on:
