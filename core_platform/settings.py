@@ -67,11 +67,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core_platform.urls'
 
-CORS_ALLOW_ALL_ORIGINS = True
-
-CORS_ALLOWED_ORIGINS = [
+CORS_ALLOW_ORIGINS = [
     "http://localhost:3000",
+    "http://192.168.84.244:3000",
 ]
+CORS_ALLOW_ALL_ORIGINS = False  
 
 
 TEMPLATES = [
@@ -98,7 +98,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("redis", 6379)],
         },
     }
 }
