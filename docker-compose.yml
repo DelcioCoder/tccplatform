@@ -12,8 +12,8 @@ services:
       - redis
     environment:
       - DJANGO_SETTINGS_MODULE=core_platform.settings
-      - NEXT_PUBLIC_API_URL=http://web:8000
-      - FRONTEND_URL=http://localhost:3000
+      - NEXT_PUBLIC_API_URL=https://frontend-tccplatform-sesy.vercel.app/
+      - FRONTEND_URL=https://frontend-tccplatform-sesy.vercel.app/
     restart: unless-stopped
 
   redis:
