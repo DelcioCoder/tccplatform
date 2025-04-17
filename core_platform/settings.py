@@ -69,10 +69,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core_platform.urls'
 
-CORS_ALLOW_ORIGINS = [
-    "https://frontend-tccplatform-sesy.vercel.app/",
+CORS_ALLOWED_ORIGINS = [
+    "https://frontend-tccplatform-sesy.vercel.app",
 ]
-CORS_ALLOW_ALL_ORIGINS = False  
+CORS_ALLOW_ALL_ORIGINS = False
 
 
 CSRF_TRUSTED_ORIGINS = [
