@@ -10,15 +10,11 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-COPY . /app/
-
 RUN adduser --disabled-password --no-create-home app
-RUN chown -R app:app /app
-USER app
 
-COPY entrypoint.sh /app/entrypoint.sh
+COPY --chown=app:app . /app/
+COPY --chown=app:app entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
-EXPOSE 8000
-
+USER app
 CMD ["/app/entrypoint.sh"]
