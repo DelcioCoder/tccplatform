@@ -17,5 +17,7 @@ COPY --chown=app:app entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
 RUN touch /app/email.log && chown app:app /app/email.log
+RUN mkdir /app/staticfiles && chown app:app /app/staticfiles
+
 USER app
 CMD ["/app/entrypoint.sh"]
