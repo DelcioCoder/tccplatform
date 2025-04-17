@@ -27,8 +27,7 @@ SECRET_KEY = 'django-insecure-lfdm3_#y3oh5v1esqg$%%=$^)%6t^^soj$b+t%x@mpipc@kbg%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://tccplatform.onrender.com', 'www.tccplatform.onrender.com']
-
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
