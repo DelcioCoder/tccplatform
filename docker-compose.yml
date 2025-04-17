@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ["/app/entrypoint.sh"] # Usar um script de entrada
     ports:
       - "8000:8000"
     depends_on:
