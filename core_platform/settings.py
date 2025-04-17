@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -69,14 +70,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'core_platform.urls'
 
 CORS_ALLOW_ORIGINS = [
-    "http://localhost:3000",
-    "http://192.168.84.244:3000",
+    "https://frontend-tccplatform-sesy.vercel.app/",
 ]
 CORS_ALLOW_ALL_ORIGINS = False  
 
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://tccplatform-1.onrender.com",
+    "https://tccplatform.onrender.com",
 ]
 
 
@@ -110,7 +110,7 @@ CHANNEL_LAYERS = {
     }
 }
 
-CORS_ALLOW_ALL_ORIGINS = True  # Apenas para desenvolvimento!
+
 CORS_ALLOW_CREDENTIALS = True
 
 
@@ -118,12 +118,8 @@ CORS_ALLOW_CREDENTIALS = True
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -149,7 +145,8 @@ from decouple import config
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # FrontEnd endpoint
-FRONTEND_URL = "http://localhost:3000"  # Desenvovimento
+FRONTEND_URL = "https://frontend-tccplatform-sesy.vercel.app"  # Produção
+# FRONTEND_URL = "http://localhost:3000"  # Desenvolvimento
 
 
 
@@ -222,10 +219,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

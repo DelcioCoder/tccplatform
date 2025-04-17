@@ -21,4 +21,3 @@ RUN python manage.py collectstatic --no-input
 
 EXPOSE 8000
 
-CMD python manage.py migrate && python -m daphne -b 0.0.0.0 -p 8000 core_platform.asgi:application
