@@ -18,7 +18,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password', 'password2', 'user_type']
+        fields = ['username','last_name', 'email', 'password', 'password2', 'user_type']
         extra_kwargs = {
             'password2': {'write_only': True}
         }
@@ -33,6 +33,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         validated_data.pop('password2') # Remove password2 antes de criar o usuário
         user = CustomUser.objects.create_user(
             username=validated_data['username'],
+            last_name=validated_data['last_name'],
             email=validated_data['email'],
             password=validated_data['password'],
             user_type=validated_data['user_type']
@@ -43,5 +44,5 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def validate_email(self, value):
         if CustomUser.objects.filter(email=value).exists():
-            raise serializers.ValidationError("This email is already in use.")
+            raise serializers.ValidationError("Este email já está em uso.")
         return value
