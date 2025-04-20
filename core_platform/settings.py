@@ -71,6 +71,7 @@ ROOT_URLCONF = 'core_platform.urls'
 
 CORS_ALLOWED_ORIGINS = [
     "https://frontend-tccplatform-sesy.vercel.app",
+    "http://localhost:3000"
 ]
 CORS_ALLOW_ALL_ORIGINS = False
 
